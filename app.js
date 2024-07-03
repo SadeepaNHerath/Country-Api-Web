@@ -68,16 +68,19 @@ fetch("https://restcountries.com/v3.1/all")
     .then(res => res.json())
     .then(data => {
         let countriesContainer = document.getElementById("countriesContainer");
+        let cards = '<div class="row justify-content-center">';
+        data.forEach((element, index) => {
+            cards += `
+                <div class="col-lg-2 col-md-3 col-sm-4 col-6 country-card">
+                    <img src="${element.flags.png}" class="img-fluid" alt="Flag of ${element.name.common}">
+                    <h2>${element.name.common}</h2>
+                </div>
+            `;
 
-        let cards = '';
-
-        data.forEach(element => {
-            cards += `<div class="country-card">
-                        <img src="${element.flags.png}" alt="Flag of ${element.name.common}">
-                        <h2>${element.name.common}</h2>
-                       
-                      </div>`;
+            if ((index + 1) % 5 === 0) {
+                cards += '</div><div class="row justify-content-center">';
+            }
         });
-
+        cards += '</div>';
         countriesContainer.innerHTML = cards;
     });
